@@ -1,4 +1,4 @@
-const Note = require('../models/noteModel');
+const Note = require('../Model/noteModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 // funactions create , update, delete
@@ -46,13 +46,13 @@ await newNote.save();
 res.status(201).json({
     status:"success",
     data:{
-        newNote,
+       note: newNote,
     },
 });
 });
 
 exports.updateNote = catchAsync(async(req,res,next)=>{
-    const {id} = req.params.id;
+    const id = req.params.id;
     const {title,content} = req.body;
 
     const updatedNote = await Note.findByIdAndUpdate(id,
@@ -77,8 +77,8 @@ exports.updateNote = catchAsync(async(req,res,next)=>{
 });
 
 exports.deleteNote = catchAsync(async(req,res,next)=>{
-    const {id} = req.params.id;
-    await Note.findByIdAndUpdate(id);
+    const id = req.params.id;
+    await Note.findByIdAndDelete(id);
 
     res.status(204).json({
       
