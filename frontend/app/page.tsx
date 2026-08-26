@@ -1,8 +1,12 @@
 import React from 'react'
+import Nav from './nav';
+import Note from './note';
 
 const HomePage = () => {
   return (
-    <div className='text-9xl'>Home page</div>
+    <div>
+     <Note/>
+    </div>
   )
 }
 
