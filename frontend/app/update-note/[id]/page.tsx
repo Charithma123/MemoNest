@@ -2,21 +2,30 @@
 import { API_URL } from '@/server';
 import { useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react'
+import { auth } from '@/app/lib/firebase';
+import { useRequireAuth } from '@/app/hooks/useRequireAuth';   
+
+
 
 const UpdateNote = ({ params }: { params: Promise<{ id: string }> }) => {
     const router = useRouter();
-    const { id } = use(params);   
+    const { id } = use(params);
+        const { user, loading } = useRequireAuth();   
+
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
     console.log({ title, content });
 
-    useEffect(() => {
-        if (id) {
+      useEffect(() => {
+        if (id && !loading && user) {          // ➕ added !loading && user check
             const fetchNote = async () => {
                 try {
-                    const response = await fetch(`${API_URL}/notes/${id}`);
+                    const token = await auth.currentUser?.getIdToken();
+                    const response = await fetch(`${API_URL}/notes/${id}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
                     const responseData = await response.json();
                     const note = responseData.data.note;
                     setTitle(note.title);
@@ -27,15 +36,21 @@ const UpdateNote = ({ params }: { params: Promise<{ id: string }> }) => {
             };
             fetchNote();
         }
-    }, [id]);
+    }, [id, loading, user]); 
+    
 
     const updateHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            const token = await auth.currentUser?.getIdToken();
+
             const noteData = { title, content };
             const response = await fetch(`${API_URL}/notes/${id}`, {
                 method: "PATCH",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                     "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                     },
                 body: JSON.stringify(noteData),
             });
             if (response.ok) router.push("/");

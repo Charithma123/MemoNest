@@ -1,6 +1,5 @@
 import React from 'react'
 import { BiCalendar, BiPencil, BiTrash } from 'react-icons/bi';
-import Note from './note';
 import Link from 'next/link';
 
 type Props = {
