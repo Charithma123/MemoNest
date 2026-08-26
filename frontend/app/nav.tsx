@@ -1,9 +1,14 @@
+"use client"
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 import { BiPlus, BiPulse } from 'react-icons/bi';
+import { useAuth } from './context/AuthContext';
+
+
 
 function Nav() {
+    const { user, logout } = useAuth();
     return (
         <div className='w-[90%] mx-auto h-[14vh] flex items-center justify-between'>
             <Link href="/">
@@ -25,6 +30,12 @@ function Nav() {
                     <div className='sm:text-lg test-base fonr-bold uppercase'>
                         Add Note
                     </div>
+
+                    {user ? (
+                        <button onClick={logout}>Sign Out</button>
+                    ) : (
+                        <Link href="/login">Login</Link>
+                    )}
                 </div>
             </Link>
         </div>
