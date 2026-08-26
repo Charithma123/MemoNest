@@ -7,7 +7,7 @@ function Nav() {
     return (
         <div className='w-[90%] mx-auto h-[14vh] flex items-center justify-between'>
             <Link href="/">
-                <Image src="/images/logo.jpg" alt="Logo" height={170} width={170} />
+                <Image src="/images/logo.jpg" alt="Logo" height={90} width={90} />
             </Link>
 
             <Link href={`/add-note`}>

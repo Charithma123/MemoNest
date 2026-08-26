@@ -8,9 +8,10 @@ type Props = {
         _id: string;
         title: string;
         content: string;
-        updateAdt: Date;
+        updatedAt: Date;
         createdAt: Date;
     };
+    onDelete:(id:string)=>void;
 };
 
 
@@ -22,11 +23,11 @@ const formateDate = (date: Date) => {
         year: 'numeric',
     }).format(dateValue);
 };
-const NoteCard = ({ note }: Props) => {
+const NoteCard = ({ note, onDelete }: Props) => {
     const createDate = formateDate(note.createdAt);
     let updateDate
-    if (note.updateAdt) {
-        updateDate = formateDate(note.updateAdt);
+    if (note.updatedAt) {
+        updateDate = formateDate(note.updatedAt);
     }
     return (
         <div className='p-8 overflow-hidden bg-blue-900 rounded-lg relative'>
@@ -43,7 +44,7 @@ const NoteCard = ({ note }: Props) => {
             <h1 className='text-white text-3xl mb-4 font-bold'>{note.title}</h1>
             <p className='text-base mb-4 w-[90%] text-white text-opacity-70'>{note.content}</p>
 
-          {note.updateAdt && (
+          {note.updatedAt && (
             <p className='text-sm text-white text-opacity-65 mb-4 font-semibold'>Last Updated:  {updateDate}</p>
           )}
           <Link href={`/update-note/${note._id}`}>
@@ -55,7 +56,8 @@ const NoteCard = ({ note }: Props) => {
           </Link>
 
           
-          <div className='w-8 h-8 bg-rose-700 hover:bg-rose-900 transition-all duration-150 rounded-full absolute
+          <div onClick={()=>{onDelete(note._id);}}
+           className='w-8 h-8 bg-rose-700 hover:bg-rose-900 transition-all duration-150 rounded-full absolute
           bottom-4 cursor-pointer right-4 items-center justify-center flex-col'>
             <BiTrash className='text-white w-6 h-6'/>
 

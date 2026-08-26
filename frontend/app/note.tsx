@@ -7,7 +7,7 @@ type Notes = {
     _id: string;
     title: string;
     content: string;
-    updateAdt: Date;
+    updatedAt: Date;
     createdAt: Date;
 };
 
@@ -29,6 +29,22 @@ const Note = () => {
 
     };
 
+    const handleDelete= async(id:string)=>{
+        try {
+            const response = await fetch(`${API_URL}/notes/${id}`,{
+                method: "DELETE",
+
+            })
+            if(response.ok){
+                    setNotes((prevNotes)=>prevNotes.filter((note)=>note._id !== id));
+            }else{
+                console.log("Failed to delete the note");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(()=>{
         fetchNotes();
     }, []);
@@ -46,7 +62,7 @@ const Note = () => {
 
 
                      <div key={note._id}>
-                            <NoteCard note={note}/>
+                            <NoteCard note={note} onDelete={handleDelete}/>
                      </div>
                     );
                 })
