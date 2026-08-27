@@ -27,6 +27,12 @@ function Nav() {
                         </div>
                     </Link>
 
+                    <Link href="/add-journal">
+                        <div className="flex items-center gap-2 bg-mist hover:bg-nest hover:text-canvas transition-colors duration-200 rounded-full px-4 py-2 text-sm font-semibold text-ink uppercase tracking-wide">
+                            Journal
+                        </div>
+                    </Link>
+
                     {user ? (
                         <button
                             onClick={logout}
