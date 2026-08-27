@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { auth } from '@/app/lib/firebase';
 import { useRequireAuth } from '@/app/hooks/useRequireAuth';
+import { uploadImageToCloudinary } from '../lib/cloudinary';
 
 const AddNote = () => {
     const router = useRouter();
@@ -11,11 +12,22 @@ const AddNote = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
+    const [uploading, setUploading] = useState(false);
+
     const addNoteHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            setUploading(true);
             const token = await auth.currentUser?.getIdToken();
-            const newNote = { title, content };
+
+            const imageUrls: string[] = [];
+            for (const file of imageFiles) {
+                const url = await uploadImageToCloudinary(file);
+                imageUrls.push(url);
+            }
+
+            const newNote = { title, content, images: imageUrls };
             const response = await fetch(`${API_URL}/notes`, {
                 method: "POST",
                 headers: {
@@ -31,6 +43,8 @@ const AddNote = () => {
             }
         } catch (error) {
             console.log(error);
+        }finally{
+            setUploading(false);
         }
     }
 
@@ -52,11 +66,21 @@ const AddNote = () => {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                 />
+                <input
+                type='file'
+                accept='image/*'
+                multiple
+                onChange={(e)=>e.target.files && setImageFiles(Array.from(e.target.files))}
+                className='block w-full text-sm text-link-soft file:mr-4 file:py-2 file:px-4 
+                file:rounded-full file:border-0 file:bg-mist file:text-link
+                 hover:file:bg-nest hover:file:text-canvas file:transition-colors'/>
+
                 <button
                     type="submit"
+                    disabled={uploading}
                     className="px-6 py-3 bg-nest text-canvas font-medium rounded-xl hover:bg-nest-deep transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nest"
                 >
-                    Save note
+                   {uploading ? "Saving..." : "Save note"}
                 </button>
             </form>
         </div>
