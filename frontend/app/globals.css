@@ -1,2 +1,53 @@
 @import "tailwindcss";
 
+:root {
+  --color-ink: #142523;
+  --color-ink-soft: #4B5E5A;
+  --color-canvas: #F1F3EC;
+  --color-nest: #2F6F63;
+  --color-nest-deep: #17352E;
+  --color-honey: #E8A33E;
+  --color-honey-deep: #C4801F;
+  --color-clay: #BD5B42;
+  --color-paper: #FFFFFF;
+  --color-mist: #E3EAE5;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-canvas: var(--color-canvas);
+  --color-nest: var(--color-nest);
+  --color-nest-deep: var(--color-nest-deep);
+  --color-honey: var(--color-honey);
+  --color-honey-deep: var(--color-honey-deep);
+  --color-clay: var(--color-clay);
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-fraunces);
+  --font-mono: var(--font-jetbrains);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-rise-in {
+    animation: rise-in 0.5s ease-out both;
+  }
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,44 +1,50 @@
 "use client"
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
-import { BiPlus, BiPulse } from 'react-icons/bi';
+import { BiPlus } from 'react-icons/bi';
 import { useAuth } from './context/AuthContext';
-
-
 
 function Nav() {
     const { user, logout } = useAuth();
+
     return (
-        <div className='w-[90%] mx-auto h-[14vh] flex items-center justify-between'>
-            <Link href="/">
-                <Image src="/images/logo.jpg" alt="Logo" height={90} width={90} />
-            </Link>
+        <header className="w-full border-b border-mist">
+            <div className="w-[90%] max-w-6xl mx-auto h-[14vh] flex items-center justify-between">
+                <Link href="/" className="flex items-center gap-3">
+                    <Image src="/images/logo.jpg" alt="MemoNest" height={44} width={44} className="rounded-xl" />
+                    <span className="font-display text-2xl text-ink hidden sm:block">MemoNest</span>
+                </Link>
 
-            <Link href={`/add-note`}>
-
-
-                <div className='flex items-center cursor-pointer space-x-2 border-[2px] hover:bg-gray-200 transition-all
-      duration-200 rounded-lg px-4 py-2'>
-
-                    <div className='sm:w-8 sm:h-8 w-6 h-6 bg-rose-500 rounded-full flex items-center justify-center flex-col'>
-
-                        <BiPlus className='text-white sm:w-6 sm:h-6 w-4 h-4' />
-
-                    </div>
-
-                    <div className='sm:text-lg test-base fonr-bold uppercase'>
-                        Add Note
-                    </div>
+                <div className="flex items-center gap-3">
+                    <Link href="/add-note">
+                        <div className="flex items-center gap-2 bg-honey hover:bg-honey-deep transition-colors duration-200 rounded-full pl-2 pr-4 py-2 shadow-sm">
+                            <span className="w-7 h-7 bg-ink rounded-full flex items-center justify-center">
+                                <BiPlus className="text-honey w-5 h-5" />
+                            </span>
+                            <span className="text-sm font-semibold text-ink uppercase tracking-wide">
+                                Add Note
+                            </span>
+                        </div>
+                    </Link>
 
                     {user ? (
-                        <button onClick={logout}>Sign Out</button>
+                        <button
+                            onClick={logout}
+                            className="text-sm font-medium text-ink-soft hover:text-clay transition-colors px-3 py-2 rounded-full hover:bg-mist focus-visible:outline-2 focus-visible:outline-nest"
+                        >
+                            Sign Out
+                        </button>
                     ) : (
-                        <Link href="/login">Login</Link>
+                        <Link
+                            href="/login"
+                            className="text-sm font-medium text-ink-soft hover:text-nest transition-colors px-3 py-2 rounded-full hover:bg-mist focus-visible:outline-2 focus-visible:outline-nest"
+                        >
+                            Login
+                        </Link>
                     )}
                 </div>
-            </Link>
-        </div>
+            </div>
+        </header>
     )
 }
 
