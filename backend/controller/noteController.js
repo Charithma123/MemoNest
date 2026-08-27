@@ -31,7 +31,7 @@ exports.getNoteById = catchAsync(async (req, res, next) => {
 });
 
 exports.createNote = catchAsync(async (req, res, next) => {
-    const { title, content } = req.body;
+    const { title, content, images } = req.body;
     if (!title || !content) {
         return next(new AppError("Title and content are missing", 400));
     }
@@ -39,6 +39,7 @@ exports.createNote = catchAsync(async (req, res, next) => {
     const newNote = new Note({
         title,
         content,
+        images: images || [],
         userId: req.user.uid,
     });
     await newNote.save();
@@ -53,13 +54,14 @@ exports.createNote = catchAsync(async (req, res, next) => {
 
 exports.updateNote = catchAsync(async (req, res, next) => {
     const id = req.params.id;
-    const { title, content } = req.body;
+    const { title, content, images } = req.body;
 
     const updatedNote = await Note.findOneAndUpdate(
         { _id: id, userId: req.user.uid },
         {
             title,
             content,
+            images,
             updatedAt: Date.now(),
         },
         { new: true }

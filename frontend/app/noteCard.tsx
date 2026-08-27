@@ -7,6 +7,7 @@ type Props = {
         title: string;
         content: string;
         updatedAt: Date;
+        images?:string[];
         createdAt: Date;
     };
     onDelete: (id: string) => void;
@@ -50,6 +51,10 @@ const NoteCard = ({ note, onDelete }: Props) => {
 
             <h2 className="font-display text-xl text-ink mb-2">{note.title}</h2>
             <p className="text-sm text-ink-soft line-clamp-3 flex-1">{note.content}</p>
+
+            {note.images?.[0] && (
+                <img src={note.images[0]} alt="" className="w-full h-32 object-cover rounded-lg mb-3" />
+            )}
 
             {updateDate && (
                 <p className="mt-4 pt-4 border-t border-mist font-mono text-xs text-ink-soft">
