@@ -26,7 +26,7 @@ const JournalCard = ({ journal, onDelete }: Props) => {
             </Link>
             <button
                 onClick={() => onDelete(journal._id)}
-                className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-clay hover:bg-clay/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-clay hover:bg-clay/10 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
             >
                 <BiTrash className="w-4 h-4" />
             </button>

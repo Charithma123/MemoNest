@@ -33,7 +33,7 @@ const NoteCard = ({ note, onDelete }: Props) => {
                     <BiCalendar className="w-3.5 h-3.5" />
                     {createDate}
                 </span>
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     <Link
                         href={`/update-note/${note._id}`}
                         className="w-8 h-8 flex items-center justify-center rounded-full text-nest hover:bg-mist transition-colors focus-visible:outline-2 focus-visible:outline-nest"
